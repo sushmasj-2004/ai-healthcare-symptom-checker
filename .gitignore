@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.pkl
+venv/
+env/
+.env
+
+# Model files (too large for github)
+model/model.pkl
+
+# Data files
+user_data.csv
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
