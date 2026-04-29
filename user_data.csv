@@ -1,3 +1,3 @@
 firstName,lastName,email,phone,age,gender,location,deviceId,ipAddress,registeredAt,sessionStart
 Test,User,test@test.com,9999999999,25,male,"Hubli, Karnataka",test_device_123,127.0.0.1,2026-04-28T10:35:39.496994,2026-04-28T10:35:39.496994
-Sushma,Joshi,sushma@gmail.com,+91 9019739656,22,female,"Dharwad, Karnataka",dev_3qpg0op5gph_1777269588002,103.147.113.226,2026-04-28T05:38:26.620Z,2026-04-28T11:08:26.624274
+Sushma,Joshi,sushma@gmail.com,+91 **********,42,female,"Mysore, Karnataka",dev_3qpg0op5gph_1777269588002,103.147.113.226,2026-04-28T05:38:26.620Z,2026-04-28T11:08:26.624274
