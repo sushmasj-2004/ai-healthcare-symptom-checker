@@ -1,0 +1,20 @@
+symptoms,disease
+fever cough headache fatigue,Common Cold
+fever sore throat cough runny nose,Influenza
+chest pain shortness of breath sweating nausea,Heart Attack
+headache nausea vomiting sensitivity to light,Migraine
+cough shortness of breath fever wheezing night sweats,Asthma
+abdominal pain diarrhea vomiting fever nausea,Food Poisoning
+high fever rash headache joint pain severe muscle pain,Dengue Fever
+itching rash swelling hives difficulty breathing,Allergic Reaction
+burning urination frequent urination pain lower abdomen blood urine,Urinary Tract Infection
+persistent cough blood cough weight loss night sweats fatigue,Tuberculosis
+stomach pain constipation diarrhea bloating,Irritable Bowel Syndrome
+severe headache vision changes confusion weakness,Stroke
+yellow skin yellow eyes dark urine fatigue,Jaundice
+joint pain stiffness swelling morning stiffness,Rheumatoid Arthritis
+memory loss confusion disorientation personality changes,Alzheimers Disease
+rapid heartbeat palpitations dizziness fainting,Arrhythmia
+swollen legs shortness breath fatigue weight gain,Congestive Heart Failure
+blurred vision thirst urination weight loss,Diabetes Mellitus
+numbness tingling weakness balance,Multiple Sclerosis

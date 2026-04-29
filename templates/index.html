@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI HealthCare - Symptom Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Profile Overlay & Panel (OUTSIDE .container) -->
+    <div class="profile-overlay hidden" id="profileOverlay" onclick="toggleProfilePanel()"></div>
+    <div class="profile-panel hidden" id="profilePanel">
+        <div class="profile-panel-header">
+            <h3><i class="fas fa-id-card"></i> My Profile</h3>
+            <button onclick="toggleProfilePanel()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="profile-avatar-section">
+            <div class="profile-avatar-big" id="profileAvatarBig">G</div>
+            <div class="profile-name-big" id="profileNameBig">Guest User</div>
+            <div class="profile-email-big" id="profileEmailBig">guest@healthchecker.ai</div>
+        </div>
+        <div class="profile-info-list">
+            <div class="profile-info-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                    <span class="info-label">Contact</span>
+                    <span class="info-value" id="profilePhone">—</span>
+                </div>
+            </div>
+            <div class="profile-info-item">
+                <i class="fas fa-venus-mars"></i>
+                <div>
+                    <span class="info-label">Gender</span>
+                    <span class="info-value" id="profileGender">—</span>
+                </div>
+            </div>
+            <div class="profile-info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <span class="info-label">Location</span>
+                    <span class="info-value" id="profileLocation">—</span>
+                </div>
+            </div>
+        <div class="profile-info-item">
+            <i class="fas fa-fingerprint"></i>
+            <div>
+                <span class="info-label">Device ID <i class="fas fa-lock" style="color:#4a90e2; font-size:0.7rem;"></i></span>
+                <span class="info-value info-mono" id="profileDeviceId">••••••••••••••••</span>
+            </div>
+        </div>
+        <div class="profile-info-item">
+            <i class="fas fa-network-wired"></i>
+            <div>
+                <span class="info-label">IP Address <i class="fas fa-lock" style="color:#4a90e2; font-size:0.7rem;"></i></span>
+                <span class="info-value info-mono" id="profileIp">•••.•••.•••.•••</span>
+            </div>
+        </div>
+            <div class="profile-info-item">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <span class="info-label">Session Started</span>
+                    <span class="info-value" id="profileSession">—</span>
+                </div>
+            </div>
+        </div>
+        <button class="logout-btn-panel" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <div class="container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1>AI HealthCare</h1>
+            </div>
+            <p>AI-Powered Symptom Checker</p>
+        </header>
+
+        <!-- User Bar -->
+        <div class="user-bar" id="userBar">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">G</div>
+                <div class="user-details">
+                    <span class="user-name" id="userName">Guest</span>
+                    <span class="user-meta" id="userMeta">guest session</span>
+                </div>
+            </div>
+            <div class="user-actions">
+                <button class="user-action-btn" onclick="toggleProfilePanel()" title="Profile">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <button class="user-action-btn" onclick="handleLogout()" title="Update Profile">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Language Selection -->
+        <div class="language-selector">
+            <h3>Select Language <i class="fas fa-globe"></i></h3>
+            <div class="lang-buttons">
+                {% for code, name in languages.items() %}
+                <button class="lang-btn" data-lang="{{ code }}" data-name="{{ name }}">
+                    <span class="lang-flag">{{ code.upper() }}</span> {{ name }}
+                </button>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+            <div class="input-group">
+                <textarea id="symptomsInput" placeholder=""></textarea>
+                <div class="input-actions">
+                    <button id="speechBtn" class="action-btn speech-btn">
+                        <i class="fas fa-microphone"></i> Speak
+                    </button>
+                    <button id="clearBtn" class="action-btn clear-btn">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                </div>
+            </div>
+            <button id="analyzeBtn" class="analyze-btn">
+                <i class="fas fa-stethoscope"></i> Analyze Symptoms
+            </button>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Analyzing your symptoms...</p>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="results hidden">
+            <div class="result-header">
+                <h2><i class="fas fa-diagnoses"></i> Diagnosis</h2>
+            </div>
+            <div class="diagnosis-card">
+                <div class="disease-name" id="diseaseName"></div>
+                <div class="confidence" id="confidence"></div>
+                <div class="severity" id="severity"></div>
+            </div>
+            <div class="advice-section">
+                <h3><i class="fas fa-info-circle"></i> Recommendations</h3>
+                <div class="advice" id="advice"></div>
+            </div>
+            <div class="action-buttons">
+                <button class="speak-result-btn" id="speakResult">
+                    <i class="fas fa-volume-up"></i> Listen
+                </button>
+                <div class="consult-dropdown">
+                    <button class="consult-btn" id="consultToggle" onclick="toggleDropdown()">
+                        <i class="fas fa-user-md"></i> Consult Doctor <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="consult-options hidden" id="consultDropdown">
+                        <button onclick="window.open('https://www.google.com/maps/search/hospitals+near+me', '_blank')">
+                            <i class="fas fa-map-marker-alt"></i> Nearby Hospitals
+                        </button>
+                        <button onclick="window.open('https://www.practo.com/consult', '_blank')">
+                            <i class="fas fa-video"></i> Online Doctor
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error -->
+        <div id="error" class="error hidden"></div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
